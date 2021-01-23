@@ -1,1 +1,1 @@
-There is no instullation for the JOSSE data set or Crowd Planning Poker relpication pack. The code provided are python code that works on Python 3. Please see REQUIREMENTS.txt for required python packages.
+There is no installation for the JOSSE data set or Crowd Planning Poker replication pack. The code provided is a python code that works on Python 3. Please see REQUIREMENTS.txt for required python packages.

@@ -1,2 +1,7 @@
-Abalible Badge
-Reusable Badge
+Available Badge:
+
+The artifact is available on a public Github repository as explained under the access section of the abstract. We also generate a DOI for the artifact, and it is under the same section along with the Github link.
+
+Reusable Badge:
+
+We have documented the artifacts and describe it in the abstract. Then we move the description details to the individual correspond files.

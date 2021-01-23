@@ -42,29 +42,26 @@
 \maketitle
 
 \begin{abstract}
-
+The JIRA Open Source Software Effort (JOSSE) data set consists of software development and maintenance tasks collected from the JIRA issue tracking system for three open source communities, including Apache, JBoss, And Spring. Issued from JOSSE data set has been used in the crowd planning poker (CPP) research. CPP's replication pack has also been supplied and explained in this essay.
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-As part of the research work that investigate the ability of crowds to predict an expert-comparable estimates for software development and maintenance tasks, it was crucial to find such tasks that are annotated by expert estimates, and descriptions. In the same time, it was essential for those tasks to be open so public crowd can predict them. Up to our knowledge, the literature has no such data set. Therefore, this abstract will illustrate details about two main topics, JIRA Open Source Software Effort (JOSSE) Data set, and Crowd Planing Poker (CPP) research replication pack. 
+As part of the research work that investigates crowds' ability to predict an expert-comparable estimate for software development and maintenance tasks, it was crucial to find such tasks annotated by expert estimates and descriptions. In the same time, it was essential for those tasks to be open so that the public crowd can predict them. Up to our knowledge, the literature has no such data set. This abstract will discuss the JIRA Open Source Software Effort (JOSSE) Data set and the Crowd Planing Poker (CPP) research replication pack. 
 
-Fortunately, some open source software projects and communities have an open issues tracker systems, e.g. JIRA, that feature software development and maintenance issues (tasks) annotated with expert estimates. 
+Fortunately, some open-source software projects and communities have open issues tracker systems, e.g. JIRA, that contains software development and maintenance issues (tasks) annotated with expert estimates. From which, JOSSE data was collected. Then a subset of the 30 issues was used in the experimental work of CPP.
 
-The second part is about the replication pack for CPP research that uses a subset of 30 issues from JOSSE data set. The replication pack consist of data files and a Python file that includes the functions that are needed to replicate the results of CPP research.
-
-The next section will explain details about JOSSE data source, filtration, collection, storage and access. Then the second section will draw details about the replication pack of CPP research results and how it can be used.
+The abstract is organized around two topics, collection and transforming  JOSSE data set, and describing the replication pack of CPP experimental work.
 
 \section{JOSSE Data Set}
-Using JIRA user interface for a couple of open source project, it was possible to collect a large number of issues that meet the main research criteria for being software development tasks annotated with description, actual cost, and expert estimate. The collected data point gathered in one data based and named as JIRA Open Source Software Effort (JOSSE) Data set.
+Using the JIRA user interface for a couple of open-source projects, it was possible to collect many issues that meet the main research criteria. The criteria are software development tasks annotated with description, actual cost, and expert estimate. The collected data points gathered in one databased and named as JIRA Open Source Software Effort (JOSSE) Data set.
 
-The literature has several software effort data sets that are publicly available at PROMISE repository \cite{Sayyad-Shirabad+Menzies:2005}. While the majority of those data sets are projects based, they also tend to have few data points and associate only numeric 
-properties. However, \citet{Ortu2015} proposed a large and general dataset collected from JIRA for several open source software projects. While \citet{Ortu2015} proposed method of mining JIRA was inspiring, their data set does not meet the research criteria mentioned above, e.g. has no expert estimates. Similarly, more researchers have used a similar method JIRA mining and propose their data sets \cite{Porru2016,Choetkiertikul2019}. However, they still do not have expert estimate.
+The literature has several software effort data sets publicly available such as those at PROMISE repository \cite{Sayyad-Shirabad+Menzies:2005}. While most of those data sets are projects based, they also tend to have few data points and associate only numeric attributes. However, \citet{Ortu2015} proposed a large and general dataset collected from JIRA for several open-source software projects. While \citet{Ortu2015} proposed method of mining JIRA is inspiring, their data set does not include expert estimates. Similarly, other data set have been proposed \cite{Choetkiertikul2019} but have no expert estimates.
 
-JIRA of three open source communities including Apache, JBoss, and Spring were used to search for software issues that has description and annotated by an actual time. The next subsection will discuss the filtration process. Then, more details will be illustrated about the collected data. Finally, a discussion about the data transformation and access will follow.
+JIRA of three open source communities including Apache, JBoss, and Spring was used to search for software issues with text descriptions and annotated by an actual time and expert estimate. The next subsection will discuss the filtration process. Then, more details will be illustrated about the collected data. Finally, a discussion about the data transformation and access will follow.
 
 \subsection{Filtering and Collecting JOSSE Data}
-JIRA interface provides a feature to filter out software issues uasing several creteria. Two of them were selected including "Spent Time" and "Status". These two criteria were toned to find relevant issues. Spent time is referred to as Logged time and it represents the actual effort that is spent on finishing an issue work. Person-hour is the unit that is used in spent time, see Figure \ref{fig:JOS:jira_time-tracking} for an example of how JIRA system presents time tracking information. Status represent the issue status to reflect on its progressive milestons, e.g. new.
+JIRA interface provides a feature to filter out software issues using several criteria. Two of them were selected including "Spent Time" and "Status". These two criteria were toned to find relevant issues. JIRA interface refers to Spent time as Logged time. It represents the actual effort that is spent working on an issue. Person-second is the unit used in spent time, see Figure \ref{fig:JOS:jira_time-tracking} for an example of how JIRA system presents time tracking information. Status filter represents the issue status to reflect on its progressive milestones, e.g. New.
 
 
 \begin{figure}
@@ -76,59 +73,46 @@ JIRA interface provides a feature to filter out software issues uasing several c
 	\label{fig:JOS:jira_time-tracking}
 \end{figure}
 
-Spent time criteria was setted to be greater than or equal 150 second (5 minutes). However, the Status criteria has a couple of values that tell the issue has finished. Different communities have different set of status values. Nevertheless, the values that were used are: Fixed, Resolved, Done, Completed, and Closed.
+Spent time was set to be greater than or equal 150 seconds (5 minutes). However, the Status has a couple of values that tell the issue has finished. Different communities have a different set of status values. Nevertheless, the values used are: Fixed, Resolved, Done, Completed, and Closed.
 
-The search result in 23,184 issues. After an initial analysis, only 4,327 of the issues were annotated with an estimated effort and actual effort. For the purposes of widening the usage of the data set, all the issues were kept even those that has no expert effort. Later, during data transformation, those issues without expert estimates will be easily distinguished.
+The search resulted in 23,184 issues. After an initial analysis, only 4,327 were annotated with an estimated effort and actual effort. All the issues were kept even those with no expert effort to widen the data set support for other experiments. Later, during data transformation, those issues without expert estimates will be easily distinguished.
 
-Finally, the filtered issues were retrieved using the export feature of JIRA. There was a limit on the number off issues that can be extracted at one time, and thus, the issues were retrieved in thousand-issue batches. Comma-Separated Values (CSV) was the export format that is selected to download the issue batches.
+Finally, the filtered issues were retrieved using the export feature of JIRA. The system limits the number of issues that can be extracted at one time, and thus, the issues were retrieved in thousand-issue batches. Comma-Separated Values (CSV) was the export format that is selected to download the issue batches.
 
 
 \subsection{Data Transformation and Storage Format}
 
-The downloaded issue data includes a lot of issue propertise, and thus, it was nessacary to filter out the most interested issue properites that serve the purpos of CPP research. Therefore, the data gone throgh a transfomation process the extract the following information from the raw data.
-\begin{itemize}
-	\item Issue Corpus, that is produced by combining issue title with its description.
-	\item Actual Effort, which is the logged time working on the issue by the assignee. 
-	\item Expert Estimate, is the estimated effort for those issues that are annotated with it. 
-	\item Issue Features, that consist of number of comments and number of activities of the issue. Number of issue activities extracted form the issue log. It represents a sum of all the events that happened for a given issue.
-	\item Issue Key, that is the original issue key used as an identifier in JIRA system. It consist of two parts, a numeric number and project name code, e.g. 1234-ABCD.
-	\item Reference, is a link that refers to the issue web page. It is extracted for the reason of traceability of each issue.
-\end{itemize}
+The downloaded data includes many issue attributes, and thus, it was necessary to filter out the targeted attributes that serve the purpose of CPP research. Therefore, the data have gone through a transformation process to extract issue Key, Corpus, Actual Effort, Expert Estimate, Features, and Reference.
 
+Issue Corpus produced by combining issue title with its description. Issue Features consists of the issue's total comments and activities number. The activities number was extracted from the issue log. It represents a sum of all the events that happened for a given issue. Issue Reference is a link that refers to the issue web page. It is extracted for the reason of traceability of each issue using the Issue Key. The key that is used is JIRA original issue key.
 
-Instead of using CSV, the research team opt for an SQL-based format and SQLite was selected to store the extracted data. Figure \ref{fig:JOS:dataset-er-diagram} shows the single table ("case") in an SQLite db that contains dataset records. The fields named after the extracted data in the list above, except for the field ``id'' which is the issue key.
+Instead of using CSV, the research team opted for an SQL-based format and SQLite was selected to store the extracted data. The SQLite DB consist of a single table named as "case", and its fields named after the extracted data as explained above, except for the Issue Key named as ``id''.
 
-The raw data and transformation script are available in the same repository of the dataset under a folder named ``dataset\_replication''. The script was written in python, and it basically contains function that read CSV files and parse the data of interest as explained above.
+The raw data and transformation Python code are available in the same repository of the dataset under a folder named ``dataset\_replication''. The code contains functions that read CSV files and parse the data of interest.
 
-JOSSE dataset has been stored in a public Github repository that is publicly accessible. The repository can be access via the following URL: https://github.com/crowd-planning-poker/JOSSE-Dataset.git. The repository contains all the necessary scripts to replicate and reproduce the dataset from its original raw data.
+JOSSE dataset stored in a public Github repository that is publicly accessible. The repository URL is https://github.com/crowd-planning-poker/JOSSE-Dataset.git. Zenodo generated a DOI for the dataset, and it is 10.5281/zenodo.4459154.
 
 \section{Crowd Planning Poker (CPP) Replication Pack}
-CPP experimental work relays used JOSSE data set to extract a subset of issues that meets the experiment design that is explained in the research publication \cite{Alhamed2021}. To conduct the experiment, thirty issues have been used and annotated with sublimentry information. 
+CPP experimental work used JOSSE data set to randomly select issues that meet the experiment design, as explained in the research publication \cite{Alhamed2021}. Thirty issues have been used and annotated with supplementary information. 
 
-The pack consiste of two parts, experment data and experiment calculation code. More details about the data, and the code will be illustrated in the following subsections.
+The pack consists of two parts, experiment data and calculation code. More details about the data and the code are in the following subsections.
 
 \subsection{CPP Experiential Data}
-The aim of CPP experiment is to evaluate crowd workers ability to predict an expert-comparable estimate for software development tasks. Thus, JOSSE data set has been used to find software issues that fits the experimental design.
+CPP experiment aims to evaluate crowd workers ability to predict an expert-comparable estimate for software development tasks. Thus, JOSSE data set has been used to find software issues that fit the experimental design.
 
-In the replication pack, there are four data files. Three of them are in CSV format and one uses Microsoft Excel format. They can be divided as the input data of the experiment and its output. The files content and type are explained in the following list:
-\begin{itemize}
-	\item 30\_issues\_data.csv: contains the input data of the experiment. A list of the thirty issues original data along with the sublimentary data that is added by the research team. Each software issue including the issue keys, titles, descriptions, expert estimates, and logged times. The sublimentray data grouped in the details field. It is a compound field, and it consists of issue comments, project overview, and issue dictionary.
-	Issue comments, and project overview were collected from issues original webpage using the referance link in the JOSSE data set. However, the issue dictionary, was built by finding the meaning of abbreviations in the issue description. The dictionary was collected manually to help crowds understand the issue context.
-	Each part of the compound filed, details, starts with a tag ``[$<$part name$>$]''. First part is developer comments with a its tag as ``[comments]'', then issue project ``[project\_info])'', and then issue dictionary ``[terms\_def]''. Each line under ``[comments]'' and ``[terms\_def]'' tags represent a record that contains two attributes of information author and comment for the lines under ``[comments]'' tag; And term and definition for lines under ``[terms\_def]'' tag. The separator between to two attributes is ``\$*\$''
-	\item crowd\_estimates.csv: contains the output data. Which is a list of crowd estimates. Each estimate includes issue key, round number, round kappa, crowd estimate, crowd justification, auto quality class. The concepts behind these fields, e.g. round, are explained in the experiment publication in details \cite{Alhamed2021}.
-	\item direct\_url\_to\_all\_issues.csv: consist of a list of issues URL that is extracted form JOSSE dataset for traceability and reproduction of the supplementary data.
-	\item issues\_and\_estimates\_data.xlsx: consist of a copy of both the experiment input and output data. It is provided just for convenience of those who prefer to use Microsoft Excel. In addition, CSV files may not be readable by conventional reader since some issues contains code snippets that confuse conventional reader tools.
-\end{itemize}
+In the replication pack, there are four data files. Three of them are in CSV format, and one uses Microsoft Excel format. The experiment input data listed in ``30\_issues\_data.csv'', and its output stored in ``crowd\_estimates.csv''. The third CSV file is ``direct\_url\_to\_all\_issues.csv''. For convenience, the input and output data are copied and stored as Microsoft Excel. Sometimes, CSV files may not be readable by the conventional reader since the issues contain code snippets that confuse conventional reader tools. The fields and the content of the input and output files are explained in the ``readme.md'' file of the replication repository.
+
 
 \subsection{CPP Experiential Code}
-The source code that is used to make CPP output calculation such as CPP round Keppa. It is written in Python, and it only requires one package, the NLTK agreement package. The list of functions inside the file are explained as the following:
+The source code contains functions that are used to calculate CPP output, such as CPP round Kappa. It is written in Python, and it only requires one package, the NLTK agreement package. The list of functions inside the file are explained as the following:
 \begin{itemize}
-	\item calculate\_round\_kappa(): this function calculates the agreement between crowd workers in each round. It uses Fleiss’ Kappa \cite{fleiss1971measuring} implementation in the NLTK package.
-	\item aggregate\_crowd\_estimates(): the main goal of this function is to aggregate crowd estimate for each round and over all the estimation session to come up with the final estimate.
-	\item Time formatting functions: two functions that are used to help in controlling the time format. The first one: estimates\_hours\_format() to group estimates into estimate category. There were seven categories as explained in the experiment publication. The other function, estimates\_time\_category\_format() do the same thing but it return the category name instead.
+	\item calculate\_round\_kappa(): this function calculates the agreement between crowd workers in each round. It uses Fleiss’ Kappa implementation in the NLTK package.
+	\item aggregate\_crowd\_estimates(): this function aggregates crowd estimate for each round and overall the estimation session.
+	\item Time formatting functions: two functions that are used to help time format. The first one: estimates\_hours\_format() to group estimates into estimate category and estimates\_time\_category\_format() to return the category name.
 \end{itemize}
 
-
+\subsection{Replication storage and Access}
+Both CPP data and code are available in the replication repository, a public Github repository accessible via  https://github.com/crowd-planning-poker/cpp-30-issue-replication-pack. Zenodo generated a DOI for the replication pack, and it is 10.5281/zenodo.4459154.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 \bibliographystyle{IEEEtranN}
